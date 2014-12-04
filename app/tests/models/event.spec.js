@@ -11,10 +11,13 @@ describe('Event Model', function () {
     });
     
     describe('when saving event', function () {
-        it('should calculate average rating', function () {
+        beforeEach(function () { 
             Model.prototype.save = function (callback) {
                 callback();
             };
+        });
+
+        it('should calculate average rating', function () {
             
             //muah
             var event = new Model({
@@ -30,6 +33,13 @@ describe('Event Model', function () {
 
             event.save(function () {
                 event.averageRating.should.equal(1.5);
+            });
+        });
+
+        it('should set average rating of 0 if no ratings', function () {
+            var event = new Model();
+            event.save(function () {
+                event.averageRating.should.equal(0);
             });
         });
     });
